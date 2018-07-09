@@ -37,11 +37,14 @@ set(EXAMPLES
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
 
-find_package(Bluez REQUIRED)
+pkg_check_modules(BLUEZ REQUIRED bluez)
+link_directories(${BLUEZ_LIBRARY_DIRS})
 
 include_directories(${PROJECT_SOURCE_DIR} ${BLUEZ_INCLUDE_DIRS})
 add_library(${PROJECT_NAME} SHARED ${SRC})
+target_link_libraries(${PROJECT_NAME} PUBLIC ${BLUEZ_LIBRARIES})
 set_target_properties(${PROJECT_NAME} PROPERTIES SOVERSION 5)
+
 
 foreach (example_src ${EXAMPLES})
     get_filename_component(example_name ${example_src} NAME_WE)
