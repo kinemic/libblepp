@@ -45,6 +45,9 @@ add_library(${PROJECT_NAME} SHARED ${SRC})
 target_link_libraries(${PROJECT_NAME} PUBLIC ${BLUEZ_LIBRARIES})
 set_target_properties(${PROJECT_NAME} PROPERTIES SOVERSION 5)
 
+add_library(${PROJECT_NAME}-static STATIC ${SRC})
+target_link_libraries(${PROJECT_NAME}-static PUBLIC ${BLUEZ_LIBRARIES})
+set_target_properties(${PROJECT_NAME}-static PROPERTIES SOVERSION 5)
 
 foreach (example_src ${EXAMPLES})
     get_filename_component(example_name ${example_src} NAME_WE)
