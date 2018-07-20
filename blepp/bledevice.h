@@ -41,13 +41,13 @@ namespace BLEPP
 		struct ReadError{};
 		struct WriteError{};
 
-		const int& sock;
+		int sock;
 		static const int buflen=ATT_DEFAULT_MTU;
 		std::vector<std::uint8_t> buf;
 
 		//template<class C> void test_fd_(int fd, int line);
 		void test_pdu(int len);
-		BLEDevice(const int& sock_);
+		BLEDevice(int& sock_);
 
 		void send_read_request(std::uint16_t handle);
 		void send_read_by_type(const bt_uuid_t& uuid, std::uint16_t start = 0x0001, std::uint16_t end=0xffff);

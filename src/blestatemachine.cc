@@ -150,6 +150,7 @@ namespace BLEPP
 		if(sock != -1)
 			log_fd(::close(sock));
 		sock = -1;
+		dev = BLEDevice(sock);
 		primary_services.clear();
 	}
 
@@ -224,7 +225,7 @@ namespace BLEPP
 			sock = log_fd(::socket(PF_BLUETOOTH, SOCK_SEQPACKET                 , BTPROTO_L2CAP));
 		else
 			sock = log_fd(::socket(PF_BLUETOOTH, SOCK_SEQPACKET | SOCK_NONBLOCK , BTPROTO_L2CAP));
-
+		dev.sock = sock;
 		if(sock == -1)
 			throw SocketAllocationFailed(strerror(errno));
 

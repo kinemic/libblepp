@@ -165,7 +165,7 @@ namespace BLEPP
 
 
 
-	BLEDevice::BLEDevice(const int& sock_)
+	BLEDevice::BLEDevice(int& sock_)
 	:sock(sock_)
 	{
 	/*
