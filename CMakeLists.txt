@@ -37,18 +37,24 @@ set(EXAMPLES
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
 
-find_package(Bluez REQUIRED)
+pkg_check_modules(BLUEZ REQUIRED bluez)
+link_directories(${BLUEZ_LIBRARY_DIRS})
 
 include_directories(${PROJECT_SOURCE_DIR} ${BLUEZ_INCLUDE_DIRS})
 add_library(${PROJECT_NAME} SHARED ${SRC})
+target_link_libraries(${PROJECT_NAME} PUBLIC ${BLUEZ_LIBRARIES})
 set_target_properties(${PROJECT_NAME} PROPERTIES SOVERSION 5)
+
+add_library(${PROJECT_NAME}-static STATIC ${SRC})
+target_link_libraries(${PROJECT_NAME}-static PUBLIC ${BLUEZ_LIBRARIES})
+set_target_properties(${PROJECT_NAME}-static PROPERTIES SOVERSION 5)
 
 foreach (example_src ${EXAMPLES})
     get_filename_component(example_name ${example_src} NAME_WE)
 
-    add_executable(${example_name} ${example_src})
-    target_link_libraries(${example_name} ${PROJECT_NAME} ${BLUEZ_LIBRARIES})
-    set_target_properties(${example_name} PROPERTIES RUNTIME_OUTPUT_DIRECTORY examples)
+    add_executable(ex_${example_name} ${example_src})
+    target_link_libraries(ex_${example_name} ${PROJECT_NAME} ${BLUEZ_LIBRARIES})
+    set_target_properties(ex_${example_name} PROPERTIES RUNTIME_OUTPUT_DIRECTORY examples)
 endforeach()
 
 install(TARGETS ${PROJECT_NAME} LIBRARY DESTINATION lib)
